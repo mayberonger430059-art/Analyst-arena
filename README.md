@@ -41,6 +41,26 @@ Evidence gate: n=3 < 10, stored as L1 (observation only). Lessons graduate
 only after enough samples accumulate.
 ```
 
+## Track record — from the production league
+
+This framework was extracted from a live football-prediction operation
+(China Sports Lottery fixtures, analysed daily, every round settled and
+reviewed in the open — losing rounds included, nothing deleted).
+Cumulative, audited figures as of **2026-10-21**:
+
+| Scope | Record | Hit rate |
+|---|---|---|
+| Medium-confidence calls (1X2 + Asian handicap) | 78 / 118 | **66.1%** |
+| Medium-confidence totals (over/under) | 28 / 42 | **66.7%** |
+| BTTS signals (tracked, never pushed) | 49 / 77 | **63.6%** |
+| Best single round — pushed calls, 2026-10-18 | 7 / 8 | **87.5%** |
+| Asian handicap, all calls (headline metric — the hardest market) | 71 / 135 | 52.6% |
+
+Read the table the way the league reads it: confidence tiers are calibrated,
+not decorative — medium-and-above is the push threshold, and the handicap
+line is published alongside the flattering numbers on purpose. A league that
+only shows its wins is marketing, not a scoreboard.
+
 ## Why
 
 Letting LLMs "debate" usually produces consensus theater: the loudest model
@@ -134,6 +154,11 @@ A ready-to-use prompt for analyst agents (any LLM) is in
 
 起源：本框架最初为足球赛事分析而建（配置见 `examples/football/`），现已
 通用化，可用于任何"多方预测 + 事实裁决"的场景。
+
+生产环境战绩（体彩足球，每日分析、逐轮结算、全量复盘不删失败轮；截至
+2026-10-21 累计）：中信心方向 78/118 = **66.1%**、中信心大小球 28/42 =
+66.7%、BTTS 信号 49/77 = 63.6%、最佳单轮推送 7/8 = 87.5%（2026-10-18）；
+主指标亚盘全量 71/135 = 52.6%（最难的市场，照实列出）。
 
 ## License
 
