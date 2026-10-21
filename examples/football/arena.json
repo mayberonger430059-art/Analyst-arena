@@ -1,0 +1,1 @@
+{"agents":{"alpha":"Alpha (market-first)","bravo":"Bravo (fundamentals-first)"},"confidences":["high","medium","low"],"db":"data/arena.db","dimensions":{"ah":{"kind":"graded"},"ht":{"kind":"hitmiss"}},"learning_min_samples":10,"nobet_codes":["LOW_CONFIDENCE","INSUFFICIENT_INFO","CONFLICTING_SIGNALS","NO_EDGE","ROTATION_RISK","INJURY_RISK","OTHER"],"push_min_confidence":"medium"}

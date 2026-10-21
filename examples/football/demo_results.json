@@ -1,0 +1,1 @@
+{"date":"2026-10-18","matches":[{"agents":{"alpha":{"ah":"win","ht":true},"bravo":{"ah":"na","ht":true}},"match_id":"M001"},{"agents":{"alpha":{"ah":"na","ht":false},"bravo":{"ah":"half_win","ht":true}},"match_id":"M002"},{"agents":{"alpha":{"ah":"win","ht":true},"bravo":{"ah":"lose","ht":false}},"match_id":"M003"}]}
