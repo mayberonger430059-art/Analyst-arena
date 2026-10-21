@@ -1,6 +1,16 @@
-# Analyst Arena
+<h1 align="center">Analyst Arena</h1>
 
-**A multi-agent prediction league where ground truth is the referee.**
+<p align="center">
+  <strong>A multi-agent prediction league where ground truth is the referee.</strong><br>
+  Locked pre-event calls · mandatory reasoning · divergence-only review · evidence-gated shared learning
+</p>
+
+<p align="center">
+  <a href="LICENSE"><img alt="License: MIT" src="https://img.shields.io/badge/license-MIT-blue.svg"></a>
+  <img alt="Python 3.8+" src="https://img.shields.io/badge/python-3.8+-blue.svg">
+  <img alt="Dependencies: none" src="https://img.shields.io/badge/dependencies-none-brightgreen.svg">
+  <a href="https://github.com/mayberonger430059-art/Analyst-arena/stargazers"><img alt="GitHub stars" src="https://img.shields.io/github/stars/mayberonger430059-art/Analyst-arena?style=social"></a>
+</p>
 
 Several AI analysts (different models, different frameworks, or the same model
 with different playbooks) independently predict the same events. Every call is
@@ -10,6 +20,26 @@ knowledge base only after enough evidence accumulates — so the league breeds a
 champion instead of averaging opinions into mush.
 
 Single-file Python, standard library only, no dependencies.
+
+## See it in action
+
+A demo round (football preset, two analysts, three matches — data in
+[`examples/football/`](examples/football/)):
+
+```text
+$ python3 arena.py --config examples/football/arena.json board
+
+===== 2026-10-18 scoreboard =====
+[Alpha (market-first)]         ah pushed 1.0/1 (100.0%) | ht pushed 2/2 (100.0%), all 2/3 | no-bet 1
+[Bravo (fundamentals-first)]   ah pushed 0.5/2 (25.0%)  | ht pushed 2/2 (100.0%), all 2/3 | no-bet 1
+
+$ python3 arena.py --config examples/football/arena.json diverge 2026-10-18
+DIVERGENCE M003 [ah]: Alpha (market-first)=home -0.5 vs Bravo (fundamentals-first)=away +0.5
+
+$ python3 arena.py --config examples/football/arena.json learn-add "…" "…" --n 3 --level L2
+Evidence gate: n=3 < 10, stored as L1 (observation only). Lessons graduate
+only after enough samples accumulate.
+```
 
 ## Why
 
@@ -22,9 +52,10 @@ replaces debate with a scoreboard:
    *no-bet* with a reason code and the call they *would* have made.
 2. **Mandatory reasoning.** A call without `reasons` is rejected. Reasons are
    the raw material for attribution after the round: *which signal won?*
-3. **Ground truth settles.** Outcomes are recorded once; the scoreboard tracks
-   pushed calls (confidence at or above the league threshold) separately from
-   all calls.
+3. **Ground truth settles, per analyst.** Outcomes are recorded per analyst
+   (two analysts on opposite sides of the same line cannot share one
+   outcome); the scoreboard tracks pushed calls (confidence at or above the
+   league threshold) separately from all calls.
 4. **Divergence-only review.** Rounds are reviewed only where pushed calls
    disagreed. Consensus rounds carry no information. Each review answers three
    questions: who won, on which signal, and which step the loser missed.
@@ -44,23 +75,17 @@ production system and retire the arena.
 ## Quickstart
 
 ```bash
-git clone https://github.com/mayberonger430059-art/analyst-arena.git
-cd analyst-arena
+git clone https://github.com/mayberonger430059-art/Analyst-arena.git
+cd Analyst-arena
 
-# A complete demo round with the football preset (two agents, 3 matches)
 python3 arena.py --config examples/football/arena.json init
 python3 arena.py --config examples/football/arena.json submit examples/football/demo_alpha.json
 python3 arena.py --config examples/football/arena.json submit examples/football/demo_bravo.json
 python3 arena.py --config examples/football/arena.json settle examples/football/demo_results.json
 python3 arena.py --config examples/football/arena.json board
 python3 arena.py --config examples/football/arena.json diverge 2026-10-18
-python3 arena.py --config examples/football/arena.json learn-add \
-  "Home favourites at short odds underperform after European away trips" \
-  "divergence review 2026-10-18; sample still small" --n 3
 python3 arena.py --config examples/football/arena.json learn-list
 ```
-
-Note how `learn-add` with `--n 3` is forced to L1: the evidence gate in action.
 
 ## Make it yours
 
@@ -81,7 +106,7 @@ Everything league-specific lives in one config file (`arena.json`):
 }
 ```
 
-- `hitmiss` dimensions settle with `true`/`false`.
+- `hitmiss` dimensions settle with `true`/`false` per analyst.
 - `graded` dimensions settle with `win` / `half_win` / `push` / `half_lose` /
   `lose` / `na` (half outcomes earn half a point; pushes are excluded) — for
   handicap lines, price targets, or any graded forecast.
@@ -101,11 +126,11 @@ A ready-to-use prompt for analyst agents (any LLM) is in
 ## 中文说明
 
 分析师擂台赛：多个 AI 分析师在事件发生前独立提交预测（必须附关键依据，
-否则校验不通过），结果出来后由事实结算记分。复盘只拆"分歧场"——大家都
-看对的场次没有信息量；每条经验要累计足够样本（默认 n≥10）才能进共享知识
-库，防止把运气当规律。共享只收验证过的统计事实，各家保留自己的权重风格，
-避免越共享越趋同。目标不是让擂台永远办下去，而是养出一个冠军，把它的
-可迁移规则并入你的生产系统。
+否则校验不通过），结果出来后由事实逐人结算记分。复盘只拆"分歧场"——大家
+都看对的场次没有信息量；每条经验要累计足够样本（默认 n≥10）才能进共享
+知识库，防止把运气当规律。共享只收验证过的统计事实，各家保留自己的权重
+风格，避免越共享越趋同。目标不是让擂台永远办下去，而是养出一个冠军，把
+它的可迁移规则并入你的生产系统。
 
 起源：本框架最初为足球赛事分析而建（配置见 `examples/football/`），现已
 通用化，可用于任何"多方预测 + 事实裁决"的场景。
