@@ -61,6 +61,8 @@ not decorative — medium-and-above is the push threshold, and the handicap
 line is published alongside the flattering numbers on purpose. A league that
 only shows its wins is marketing, not a scoreboard.
 
+Round-by-round reports (wins and losses alike): [reports/](reports/)
+
 ## Why
 
 Letting LLMs "debate" usually produces consensus theater: the loudest model
